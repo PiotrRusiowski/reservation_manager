@@ -1,0 +1,11 @@
+$background-color: grey;
+$font-color: pink;
+
+body {
+  background-color: white;
+  height: 100vh;
+
+  h1 {
+    color: $font-color;
+  }
+}
