@@ -4,7 +4,7 @@ export default class FormManager {
     #id;
     #textFields = [];
     #submitButtonMessage = 'Send';
-    // #submitCallback;
+    #submitCallback;
     #formHeaderText = '';
     #formState = {};
 
@@ -12,14 +12,14 @@ export default class FormManager {
                     id,
                     textFields = [],
                     submitButtonMessage = 'SEND',
-                    // submitCallback = function () {
-                    // },
+                    submitCallback = function () {
+                    },
                     formHeaderText = ''
                 }) {
         this.#id = id;
         this.#textFields = textFields;
         this.#submitButtonMessage = submitButtonMessage;
-        // this.#submitCallback = submitCallback;
+        this.#submitCallback = submitCallback;
         this.#formHeaderText = formHeaderText;
     }
 
@@ -42,8 +42,8 @@ export default class FormManager {
             console.log('-----------------------------------------------------------')
             console.log(this.#formState)
             console.log('-----------------------------------------------------------')
-            ReservationService.addProduct(this.#formState);
-            // this.#submitCallback();
+            ReservationService.addReservation(this.#formState);
+            this.#submitCallback();
         })
 
         return formElement;
@@ -79,7 +79,6 @@ export default class FormManager {
 
     static #createSubmitButton(message) {
         const formattedMessage = message.toUpperCase();
-
         const buttonElement = document.createElement('button');
         buttonElement.className = 'btn btn-success mt-2'
         buttonElement.setAttribute('type', 'submit');
