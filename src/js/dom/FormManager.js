@@ -49,6 +49,10 @@ export default class FormManager {
         return formElement;
     }
 
+    getFormState() {
+        return this.#formState
+    }
+
     #createTextField(id) {
         const idLowerCase = id.toLowerCase();
 

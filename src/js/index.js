@@ -6,8 +6,6 @@ import ReservationService from "./service/ReservationService";
 
 const reservationTable = document.querySelector('.reservation-table')
 const addReservationForm = document.querySelector('.add-reservation-form');
-const tableManager = new TableManager()
-const reservationService = new ReservationService()
 
 const loadReservation = () => {
     const oldTable = reservationTable.firstElementChild;
@@ -16,8 +14,14 @@ const loadReservation = () => {
     reservationTable.appendChild(table)
 
 }
-
+const deleteReservation = (e) => {
+    ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
+    loadReservation()
+}
+const tableManager = new TableManager(deleteReservation)
 loadReservation()
+
+
 const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',

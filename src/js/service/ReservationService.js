@@ -2,7 +2,7 @@ import Reservation from "../model/Reservation";
 
 // TODO Dla osob ktore ucza sie backendu zrobic REST API
 export default class ReservationService {
-    static #products = [
+    static #reservations = [
         new Reservation(1, 'TRUSKAWKA', 10, 'A'),
         new Reservation(2, 'CZERESNIA', 200, 'B'),
         new Reservation(3, 'BANAN', 7, 'C')
@@ -24,27 +24,25 @@ export default class ReservationService {
 
     static addReservation({name, price, category}) {
         const id = ReservationService.#ID++;
-        ReservationService.#products.push(new Reservation(id, name, price, category));
-        console.log(this.#products)
+        ReservationService.#reservations.push(new Reservation(id, name, price, category));
     }
 
     static deleteProduct(id) {
-        // Szukamy produktow, ktore maja okreslone id - zalozenie jest takie za znajdziemy
-        // tylko jeden unikalny obiekt, ktory ma takie id
-        const filteredProducts = ReservationService.#products.filter(p => p.id === id);
+        console.log(typeof id)
+        /
+        const filteredProducts = ReservationService.#reservations.filter((r) => r.id === id)
 
-        // Jezeli nie udalo sie znalezc produktu o takim id to wtedy masz blad
         if (filteredProducts.length === 0) {
             throw new Error(`Cannot find product with id ${id}`);
         }
 
         const productToDelete = filteredProducts[0];
-        const idxToDelete = ReservationService.#products.indexOf(productToDelete);
-        ReservationService.#products.splice(idxToDelete, 1);
+        const idxToDelete = ReservationService.#reservations.indexOf(productToDelete);
+        ReservationService.#reservations.splice(idxToDelete, 1);
     }
 
     static getAllProducts() {
-        return ReservationService.#products;
+        return ReservationService.#reservations;
     }
 
     static filterProducts(expression) {
@@ -57,7 +55,7 @@ export default class ReservationService {
         // nam sie nic nie powtorzylo zastosujemy kolekcje Set
 
         const jsonFilteredProducts = new Set();
-        expressionElements.forEach(expr => ReservationService.#products
+        expressionElements.forEach(expr => ReservationService.#reservations
             .filter(p => p.toString().toLowerCase().includes(expr.toLowerCase()))
             .map(p => p.json())
             .forEach(json => jsonFilteredProducts.add(json))

@@ -30,7 +30,7 @@ export default class TableManager {
 
     #createRow(reservation) {
         const rowElementTR = document.createElement('tr');
-        rowElementTR.addEventListener('dblclick', this.#rowClickCallback);
+        rowElementTR.addEventListener('click', this.#rowClickCallback);
         Object.values(reservation).forEach(value => {
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', reservation.id);
