@@ -6,20 +6,28 @@ import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
 
 
-const reservationTable = document.querySelector('.reservation-table')
+const reservationTable = document.querySelector('.reservation-table');
 const addReservationForm = document.querySelector('.add-reservation-form');
-const filterReservationForm = document.querySelector('.filters-form')
+const filterReservationForm = document.querySelector('.filters-form');
 
-const loadReservation = () => {
+
+const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
-    oldTable && reservationTable.removeChild(oldTable)
+    return oldTable && reservationTable.removeChild(oldTable)
+}
+const loadReservation = () => {
+    removeOldTable()
     const table = tableManager.createTable(ReservationService.getAllProducts())
     reservationTable.appendChild(table)
-
 }
 const deleteReservation = (e) => {
     ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
     loadReservation()
+}
+const filterReservations = (e) => {
+    removeOldTable()
+    const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
+    reservationTable.appendChild(table)
 }
 const tableManager = new TableManager(deleteReservation)
 loadReservation()
@@ -33,12 +41,11 @@ const formManager = new FormManager({
     submitCallback: loadReservation
 });
 
-const filterManager = new FilterFormManager({id: 'filter-id'})
+const filterManager = new FilterFormManager(filterReservations)
 
 
 const form = formManager.createForm()
 const filterForm = filterManager.createForm()
-console.log(filterForm)
 addReservationForm.appendChild(form)
 filterReservationForm.appendChild(filterForm)
 
