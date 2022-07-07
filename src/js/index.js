@@ -3,9 +3,12 @@ import '../css/index.css'
 import 'bootstrap';
 import TableManager from "./dom/TableManager";
 import ReservationService from "./service/ReservationService";
+import FilterFormManager from "./dom/FilterFormManager";
+
 
 const reservationTable = document.querySelector('.reservation-table')
 const addReservationForm = document.querySelector('.add-reservation-form');
+const filterReservationForm = document.querySelector('.filters-form')
 
 const loadReservation = () => {
     const oldTable = reservationTable.firstElementChild;
@@ -30,8 +33,13 @@ const formManager = new FormManager({
     submitCallback: loadReservation
 });
 
+const filterManager = new FilterFormManager({id: 'filter-id'})
+
 
 const form = formManager.createForm()
+const filterForm = filterManager.createForm()
+console.log(filterForm)
 addReservationForm.appendChild(form)
+filterReservationForm.appendChild(filterForm)
 
 

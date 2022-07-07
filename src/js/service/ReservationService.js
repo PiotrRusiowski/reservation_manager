@@ -29,7 +29,7 @@ export default class ReservationService {
 
     static deleteProduct(id) {
         console.log(typeof id)
-        /
+
         const filteredProducts = ReservationService.#reservations.filter((r) => r.id === id)
 
         if (filteredProducts.length === 0) {
@@ -45,7 +45,7 @@ export default class ReservationService {
         return ReservationService.#reservations;
     }
 
-    static filterProducts(expression) {
+    static filterReservations(expression) {
         // Ktos moze wpisywac kilka slow kluczowych np podawanych po spacji
         const expressionElements = expression.split(' ');
 
