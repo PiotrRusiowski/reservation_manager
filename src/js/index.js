@@ -30,10 +30,9 @@ const filterReservations = (e) => {
     const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
     reservationTable.appendChild(table)
 }
-const sortReservation = () => {
+const sortReservation = (e) => {
     removeOldTable()
-    console.log("działa")
-    const table = tableManager.createTable(ReservationService.sortLexicalReservation())
+    const table = tableManager.createTable(ReservationService.sortReservation(e.target.className))
     reservationTable.appendChild(table)
 }
 

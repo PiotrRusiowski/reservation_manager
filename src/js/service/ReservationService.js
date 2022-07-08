@@ -2,10 +2,14 @@ import Reservation from "../model/Reservation";
 
 // TODO Dla osob ktore ucza sie backendu zrobic REST API
 export default class ReservationService {
+    static #sortState = {
+        hotelNameReversed: false,
+        priceReversed: false
+    }
     static #reservations = [
-        new Reservation(1, 'TRUSKAWKA', 10, 'A'),
-        new Reservation(2, 'CZERESNIA', 200, 'B'),
-        new Reservation(3, 'BANAN', 7, 'C')
+        new Reservation(1, 'TRUSKAWKA', 10, 4),
+        new Reservation(2, 'CZERESNIA', 200, 1),
+        new Reservation(3, 'BANAN', 7, 2)
     ]
 
     /*#products = {
@@ -60,14 +64,33 @@ export default class ReservationService {
         return [...jsonFilteredProducts].map(json => JSON.parse(json))
     }
 
-    static sortLexicalReservation() {
-        let isReverse = false
-        const sortReservation = ReservationService.#reservations.sort((a, b) =>
-            a.hotelName.localeCompare(b.hotelName));
-        if (!isReverse) {
-            return sortReservation
-        } else
-            sortReservation.reverse()
+    static sortReservation(thClassName) {
+        switch (thClassName) {
+            case 'th-hotelName': {
+
+                return this.#sortLexicalReservation()
+            }
+
+            case 'th-price':
+                return this.#numericSortReservation();
+            default:
+                return this.#reservations
+
+        }
+    }
+
+    static #numericSortReservation() {
+
+        return ReservationService.#reservations.sort((a, b) => a.price - b.price)
+    }
+
+    static #sortLexicalReservation() {
+        if (ReservationService.#sortState.hotelNameReversed) {
+            return ReservationService.#reservations.sort((a, b) =>
+                a.hotelName.localeCompare(b.hotelName));
+        }
+
+
     }
 
 }
