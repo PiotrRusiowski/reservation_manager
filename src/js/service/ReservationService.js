@@ -28,14 +28,10 @@ export default class ReservationService {
     }
 
     static deleteProduct(id) {
-        console.log(typeof id)
-
         const filteredProducts = ReservationService.#reservations.filter((r) => r.id === id)
-
         if (filteredProducts.length === 0) {
             throw new Error(`Cannot find product with id ${id}`);
         }
-
         const productToDelete = filteredProducts[0];
         const idxToDelete = ReservationService.#reservations.indexOf(productToDelete);
         ReservationService.#reservations.splice(idxToDelete, 1);
@@ -62,6 +58,16 @@ export default class ReservationService {
         )
 
         return [...jsonFilteredProducts].map(json => JSON.parse(json))
+    }
+
+    static sortLexicalReservation() {
+        let isReverse = false
+        const sortReservation = ReservationService.#reservations.sort((a, b) =>
+            a.hotelName.localeCompare(b.hotelName));
+        if (!isReverse) {
+            return sortReservation
+        } else
+            sortReservation.reverse()
     }
 
 }

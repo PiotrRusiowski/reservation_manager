@@ -1,8 +1,10 @@
 export default class TableManager {
     #rowClickCallback;
+    #headerRowClickCallback;
 
-    constructor(rowClickCallback) {
+    constructor(rowClickCallback, headerRowClickCallback) {
         this.#rowClickCallback = rowClickCallback;
+        this.#headerRowClickCallback = headerRowClickCallback;
     }
 
     createTable(reservations) {
@@ -21,7 +23,9 @@ export default class TableManager {
         reservation && Object.keys(reservation).forEach(key => {
             const headerElementTH = document.createElement('th');
             const headerElementTHData = document.createTextNode(key);
+            headerElementTH.className = `th-${key}`
             headerElementTH.appendChild(headerElementTHData);
+            headerElementTH.addEventListener("click", this.#headerRowClickCallback)
             headerElementTR.appendChild(headerElementTH);
         });
         headerElementTHEAD.appendChild(headerElementTR);
@@ -30,13 +34,11 @@ export default class TableManager {
 
     #createRow(reservation) {
         const rowElementTR = document.createElement('tr');
-        rowElementTR.addEventListener('click', this.#rowClickCallback);
+        rowElementTR.addEventListener('dblclick', this.#rowClickCallback);
         Object.values(reservation).forEach(value => {
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', reservation.id);
-            // const rowElementTDText = document.createTextNode(String(value));
             rowElementTD.textContent = (String(value))
-            // rowElementTD.appendChild(rowElementTDText)
             rowElementTR.appendChild(rowElementTD);
         });
         return rowElementTR;

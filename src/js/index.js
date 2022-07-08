@@ -14,6 +14,7 @@ const filterReservationForm = document.querySelector('.filters-form');
 const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
     return oldTable && reservationTable.removeChild(oldTable)
+    console.log("remove")
 }
 const loadReservation = () => {
     removeOldTable()
@@ -29,7 +30,14 @@ const filterReservations = (e) => {
     const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
     reservationTable.appendChild(table)
 }
-const tableManager = new TableManager(deleteReservation)
+const sortReservation = () => {
+    removeOldTable()
+    console.log("działa")
+    const table = tableManager.createTable(ReservationService.sortLexicalReservation())
+    reservationTable.appendChild(table)
+}
+
+const tableManager = new TableManager(deleteReservation, sortReservation)
 loadReservation()
 
 
