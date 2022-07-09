@@ -9,7 +9,7 @@ import FilterFormManager from "./dom/FilterFormManager";
 const reservationTable = document.querySelector('.reservation-table');
 const addReservationForm = document.querySelector('.add-reservation-form');
 const filterReservationForm = document.querySelector('.filters-form');
-
+const reservationServie = new ReservationService()
 
 const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
@@ -21,6 +21,8 @@ const loadReservation = () => {
     const table = tableManager.createTable(ReservationService.getAllProducts())
     reservationTable.appendChild(table)
 }
+
+console.log(process.env.USER_ID)
 const deleteReservation = (e) => {
     ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
     loadReservation()
@@ -32,13 +34,12 @@ const filterReservations = (e) => {
 }
 const sortReservation = (e) => {
     removeOldTable()
-    const table = tableManager.createTable(ReservationService.sortReservation(e.target.className))
+    const table = tableManager.createTable(reservationServie.sortReservation(e.target.className))
     reservationTable.appendChild(table)
 }
 
 const tableManager = new TableManager(deleteReservation, sortReservation)
 loadReservation()
-
 
 const formManager = new FormManager({
     id: 'my-form',

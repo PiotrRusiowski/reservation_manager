@@ -2,10 +2,14 @@ import Reservation from "../model/Reservation";
 
 // TODO Dla osob ktore ucza sie backendu zrobic REST API
 export default class ReservationService {
-    static #sortState = {
+    #sortState = {
         hotelNameReversed: false,
         priceReversed: false
     }
+
+    constructor() {
+    }
+
     static #reservations = [
         new Reservation(1, 'TRUSKAWKA', 10, 4),
         new Reservation(2, 'CZERESNIA', 200, 1),
@@ -46,14 +50,7 @@ export default class ReservationService {
     }
 
     static filterReservations(expression) {
-        // Ktos moze wpisywac kilka slow kluczowych np podawanych po spacji
         const expressionElements = expression.split(' ');
-
-        // Podajac np expression o wartosci 'prod a' dostaniemy tablice ['prod', 'a']
-        // Potem bedziemy chcieli kazdy element tej tablicy sprawdzic, czy wystepuje w
-        // naszych produktach,alemoze byc ze produkty sie powwtorza, dlatego zeby finalnie
-        // nam sie nic nie powtorzylo zastosujemy kolekcje Set
-
         const jsonFilteredProducts = new Set();
         expressionElements.forEach(expr => ReservationService.#reservations
             .filter(p => p.toString().toLowerCase().includes(expr.toLowerCase()))
@@ -64,33 +61,29 @@ export default class ReservationService {
         return [...jsonFilteredProducts].map(json => JSON.parse(json))
     }
 
-    static sortReservation(thClassName) {
+    sortReservation(thClassName) {
         switch (thClassName) {
             case 'th-hotelName': {
-
                 return this.#sortLexicalReservation()
             }
-
             case 'th-price':
-                return this.#numericSortReservation();
+                return ReservationService.#numericSortReservation()
             default:
-                return this.#reservations
+                return ReservationService.#reservations
 
         }
     }
 
     static #numericSortReservation() {
-
         return ReservationService.#reservations.sort((a, b) => a.price - b.price)
     }
 
-    static #sortLexicalReservation() {
-        if (ReservationService.#sortState.hotelNameReversed) {
-            return ReservationService.#reservations.sort((a, b) =>
-                a.hotelName.localeCompare(b.hotelName));
-        }
+    #sortLexicalReservation() {
 
-
+        console.log(this.#sortState)
+        return ReservationService.#reservations.sort((a, b) =>
+            a.hotelName.localeCompare(b.hotelName));
     }
+
 
 }

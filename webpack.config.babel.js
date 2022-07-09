@@ -3,9 +3,9 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {CleanWebpackPlugin} from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import Dotenv from 'dotenv-webpack'
 
 module.exports = {
-
     entry: {
         index: './src/js/index.js'
     },
@@ -40,6 +40,7 @@ module.exports = {
     },
 
     plugins: [
+
         new HtmlWebpackPlugin({
             filename: 'index.html',
             title: 'Index',
@@ -47,7 +48,7 @@ module.exports = {
             chunks: ['index']
         }),
         new CleanWebpackPlugin(),
-
+        new Dotenv(),
         new MiniCssExtractPlugin({
             filename: "./css/[name].css"
         }),
