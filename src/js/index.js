@@ -21,8 +21,7 @@ const loadReservation = () => {
     const table = tableManager.createTable(ReservationService.getAllProducts())
     reservationTable.appendChild(table)
 }
-
-console.log(process.env.USER_ID)
+console.log(process.env.API)
 const deleteReservation = (e) => {
     ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
     loadReservation()
