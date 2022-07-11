@@ -3,8 +3,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {CleanWebpackPlugin} from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import {EnvironmentPlugin, ProvidePlugin} from 'webpack'
+import {ProvidePlugin} from 'webpack'
 import Dotenv from 'dotenv-webpack'
+import * as bootstrap from "bootstrap";
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 module.exports = {
     entry: {
@@ -51,9 +55,7 @@ module.exports = {
             chunks: ['index']
         }),
 
-        new EnvironmentPlugin({
-            API: 'sad'
-        }),
+
         new CleanWebpackPlugin(),
         new Dotenv(),
 

@@ -1,10 +1,12 @@
 import FormManager from "./dom/FormManager";
 import '../css/index.css'
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
 import TableManager from "./dom/TableManager";
 import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 const reservationTable = document.querySelector('.reservation-table');
 const addReservationForm = document.querySelector('.add-reservation-form');
@@ -16,12 +18,24 @@ const removeOldTable = () => {
     return oldTable && reservationTable.removeChild(oldTable)
     console.log("remove")
 }
+const tableManager = new TableManager({
+    rowClickCallback: deleteReservation,
+    sortKey: 'id',
+    columns: {
+        'id': {type: 'number', label: 'ID'},
+        'hotelName': {type: 'string', label: 'Hotel Name'},
+        'price': {type: 'number', label: 'price'},
+        'guessList': {type: 'number', label: 'guestList'},
+    },
+
+})
+
 const loadReservation = () => {
-    removeOldTable()
+    // removeOldTable()
     const table = tableManager.createTable(ReservationService.getAllProducts())
     reservationTable.appendChild(table)
 }
-console.log(process.env.API)
+
 const deleteReservation = (e) => {
     ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
     loadReservation()
@@ -33,11 +47,10 @@ const filterReservations = (e) => {
 }
 const sortReservation = (e) => {
     removeOldTable()
-    const table = tableManager.createTable(reservationServie.sortReservation(e.target.className))
+    const table = tableManager.createTable(reservationServie.sortReservation(e.target.getAttribute('data-key')))
     reservationTable.appendChild(table)
 }
 
-const tableManager = new TableManager(deleteReservation, sortReservation)
 loadReservation()
 
 const formManager = new FormManager({

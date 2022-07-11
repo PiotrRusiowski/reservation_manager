@@ -1,6 +1,5 @@
 import Reservation from "../model/Reservation";
-import {contentful} from "contentful-management";
-// TODO Dla osob ktore ucza sie backendu zrobic REST API
+
 export default class ReservationService {
     #sortState = {
         hotelNameReversed: false,
@@ -11,8 +10,8 @@ export default class ReservationService {
     }
 
     static #reservations = [
-        new Reservation(1, 'TRUSKAWKA', 10, 4),
-        new Reservation(2, 'CZERESNIA', 200, 1),
+        new Reservation(1, 'hostel', 10, 4),
+        new Reservation(2, 'hostel', 200, 1),
         new Reservation(3, 'BANAN', 7, 2)
     ]
 
@@ -46,17 +45,18 @@ export default class ReservationService {
     }
 
     static getAllProducts() {
-
-
-        const client = contentful.createClient({})
-
-        client.getSpace('<space_id>')
-            .then((space) => space.getEnvironments())
-            .then((response) => {
-                console.log(response.items)
-            })
-            .catch(console.error)
-    }
+        // const client = contentful.createClient({
+        //     accessToken: 'cJJxb2Fhyuv_4FbjPkqK775QONkUCNs8D-Mhq_LTvyI',
+        //     space: 'sqqzspaai3js',
+        // })
+        //
+        // client.getEntries({
+        //     content_type: "product",
+        // })
+        //     .then((res) => console.log(res))
+        //     .catch((error) => console.error(error));
+        return ReservationService.#reservations
+    };
 
     static filterReservations(expression) {
         const expressionElements = expression.split(' ');
