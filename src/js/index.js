@@ -45,11 +45,7 @@ const filterReservations = (e) => {
     const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
     reservationTable.appendChild(table)
 }
-const sortReservation = (e) => {
-    removeOldTable()
-    const table = tableManager.createTable(reservationServie.sortReservation(e.target.getAttribute('data-key')))
-    reservationTable.appendChild(table)
-}
+
 
 loadReservation()
 

@@ -7,19 +7,16 @@ export default class TableManager {
 
     #tableElement;
 
-    //#headerRowClickCallback;
 
+    constructor({rowClickCallback, sortKey, columns, rows}) {
+        this.#rowClickCallback = rowClickCallback;
+        this.#sortKey = sortKey || '';
+        this.#columns = columns || {};
+        this.#rows = rows || []
 
-    constructor(options) {
-        this.#rowClickCallback = options.rowClickCallback;
-        this.#sortKey = options.sortKey || '';
-        this.#columns = options.columns || {};
-        this.#rows = options.rows || []
-
-        this.sort(this.#sortKey)
     }
 
-    sort(key) {
+    #sort(key) {
         this.#sortKey = key;
 
         console.log(this.#columns, key)
@@ -30,25 +27,21 @@ export default class TableManager {
                     a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]))
                 break
             case 'number':
-                this.#rows = [...this.#rows].sort((a, b) => this.#sortOrder === 1 ? a[key] - b[key] : b[key] - a[key])
+                this.#rows = [...this.#rows].sort((a, b) => this.#sortOrder === 1 ?
+                    a[key] - b[key] : b[key] - a[key])
         }
     }
 
-    changeSort(key) {
+    #changeSort(key) {
+        console.log(key, this.#sortKey, this.#sortOrder)
         if (key === this.#sortKey) {
-            this.#sortOrder = (this.#sortOrder === 1) ? -1 : 1;
+            this.#sortOrder = this.#sortOrder === 1 ? -1 : 1;
         }
         this.#sortKey = key;
 
-        this.sort(key);
-        console.log(this.#sortKey, this.#sortOrder, this.#rows)
+        this.#sort(key);
         //
-        const tbodyElement = this.#createRows(this.#rows);
-
-        const oldTbody = this.#tableElement.querySelector('tbody');
-        oldTbody && this.#tableElement.removeChild(oldTbody)
-
-        this.#tableElement.appendChild(tbodyElement);
+        this.#reloadTable()
     }
 
     createTable(rows) {
@@ -60,7 +53,6 @@ export default class TableManager {
         const tbodyElement = this.#createRows(rows);
         tableElement.appendChild(theadElement);
         tableElement.appendChild(tbodyElement);
-
         this.#tableElement = tableElement;
         return tableElement;
     }
@@ -76,7 +68,7 @@ export default class TableManager {
             // headerElementTH.setAttribute('data-key', column);
             headerElementTH.appendChild(headerElementTHData);
 
-            headerElementTH.addEventListener("click", () => this.changeSort(key))
+            headerElementTH.addEventListener("click", () => this.#changeSort(key))
 
             headerElementTR.appendChild(headerElementTH);
         });
@@ -102,5 +94,12 @@ export default class TableManager {
             .map(row => this.#createRow(row))
             .forEach(tr => rowElementTBODY.appendChild(tr));
         return rowElementTBODY;
+    }
+
+    #reloadTable() {
+        const tbodyElement = this.#createRows(this.#rows);
+        const oldTbody = this.#tableElement.querySelector('tbody');
+        oldTbody && this.#tableElement.removeChild(oldTbody)
+        this.#tableElement.appendChild(tbodyElement);
     }
 }

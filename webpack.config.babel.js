@@ -5,10 +5,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {ProvidePlugin} from 'webpack'
 import Dotenv from 'dotenv-webpack'
-import * as bootstrap from "bootstrap";
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 module.exports = {
     entry: {

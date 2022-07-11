@@ -1,10 +1,7 @@
 import Reservation from "../model/Reservation";
 
 export default class ReservationService {
-    #sortState = {
-        hotelNameReversed: false,
-        priceReversed: false
-    }
+
 
     constructor() {
     }
@@ -68,30 +65,6 @@ export default class ReservationService {
         )
 
         return [...jsonFilteredProducts].map(json => JSON.parse(json))
-    }
-
-    sortReservation(thClassName) {
-        switch (thClassName) {
-            case 'th-hotelName': {
-                return this.#sortLexicalReservation()
-            }
-            case 'th-price':
-                return ReservationService.#numericSortReservation()
-            default:
-                return ReservationService.#reservations
-
-        }
-    }
-
-    static #numericSortReservation() {
-        return ReservationService.#reservations.sort((a, b) => a.price - b.price)
-    }
-
-    #sortLexicalReservation() {
-
-        console.log(this.#sortState)
-        return ReservationService.#reservations.sort((a, b) =>
-            a.hotelName.localeCompare(b.hotelName));
     }
 
 
