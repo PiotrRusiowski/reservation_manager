@@ -1,8 +1,8 @@
-$background-color: grey;
+$background-color: white;
 $font-color: pink;
 
 body {
-  background-color: white;
+  background-color: $background-color;
   height: 100vh;
 
   h1 {

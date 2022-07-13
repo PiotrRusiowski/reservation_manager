@@ -18,6 +18,23 @@ const removeOldTable = () => {
     return oldTable && reservationTable.removeChild(oldTable)
     console.log("remove")
 }
+const loadReservation = () => {
+    // removeOldTable()
+    const table = tableManager.createTable(ReservationService.getAllProducts())
+    reservationTable.appendChild(table)
+}
+const deleteReservation = (e) => {
+    removeOldTable()
+    ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
+    loadReservation()
+}
+
+const filterReservations = (e) => {
+    removeOldTable()
+    const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
+    reservationTable.appendChild(table)
+}
+
 const tableManager = new TableManager({
     rowClickCallback: deleteReservation,
     sortKey: 'id',
@@ -30,36 +47,24 @@ const tableManager = new TableManager({
 
 })
 
-const loadReservation = () => {
-    // removeOldTable()
-    const table = tableManager.createTable(ReservationService.getAllProducts())
-    reservationTable.appendChild(table)
-}
-
-const deleteReservation = (e) => {
-    ReservationService.deleteProduct(Number(e.target.getAttribute('reservationId')));
-    loadReservation()
-}
-const filterReservations = (e) => {
-    removeOldTable()
-    const table = tableManager.createTable(ReservationService.filterReservations(e.target.value))
-    reservationTable.appendChild(table)
-}
-
 
 loadReservation()
+
+
+const filterManager = new FilterFormManager(filterReservations)
 
 const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',
-    textFields: ['name', 'price', 'category'],
+    textFields: ['name', 'price', 'category', 'guest list'],
+    formFields: {
+        'number': {type: 'number', labels: ['price']},
+        'text': {type: 'text', labels: ['name', 'surname']},
+        select: {type: 'select', labels: ['hotelsNames']}
+    },
     submitButtonMessage: 'Add',
     submitCallback: loadReservation
 });
-
-const filterManager = new FilterFormManager(filterReservations)
-
-
 const form = formManager.createForm()
 const filterForm = filterManager.createForm()
 addReservationForm.appendChild(form)

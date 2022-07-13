@@ -4,16 +4,13 @@ export default class TableManager {
     #sortKey = ''
     #columns = {};
     #rows = [];
-
     #tableElement;
-
 
     constructor({rowClickCallback, sortKey, columns, rows}) {
         this.#rowClickCallback = rowClickCallback;
         this.#sortKey = sortKey || '';
         this.#columns = columns || {};
-        this.#rows = rows || []
-
+        this.#rows = rows || [];
     }
 
     #sort(key) {
@@ -77,8 +74,9 @@ export default class TableManager {
     }
 
     #createRow(row) {
+        console.log(this.#rowClickCallback)
         const rowElementTR = document.createElement('tr');
-        rowElementTR.addEventListener('dblclick', this.#rowClickCallback);
+        rowElementTR.addEventListener('click', this.#rowClickCallback);
         Object.values(row).forEach(value => {
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', row.id);

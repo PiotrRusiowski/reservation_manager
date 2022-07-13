@@ -5,7 +5,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {ProvidePlugin} from 'webpack'
 import Dotenv from 'dotenv-webpack'
-
+import LiveReloadPlugin from 'webpack-livereload-plugin';
 
 module.exports = {
     entry: {
@@ -52,7 +52,7 @@ module.exports = {
             chunks: ['index']
         }),
 
-
+        new LiveReloadPlugin(),
         new CleanWebpackPlugin(),
         new Dotenv(),
 
