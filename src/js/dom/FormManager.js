@@ -7,6 +7,8 @@ export default class FormManager {
     #submitCallback;
     #formHeaderText = '';
     #formState = {};
+    #formFields
+
 
     constructor({
                     id,
@@ -14,28 +16,36 @@ export default class FormManager {
                     submitButtonMessage = 'SEND',
                     submitCallback = function () {
                     },
-                    formHeaderText = ''
+                    formHeaderText = '',
+                    formFields = {}
                 }) {
         this.#id = id;
         this.#textFields = textFields;
         this.#submitButtonMessage = submitButtonMessage;
         this.#submitCallback = submitCallback;
         this.#formHeaderText = formHeaderText;
+        this.#formFields = formFields
     }
 
     createForm() {
+        console.log(this.#formFields)
+
+        return this.#createFormElement()
+        // UWAZAJ NA ID BO BYC MOZE TRZEBA BEDZIE BARDZIEJ ZADBACO ICH UNIKALNOSC
+        // this.#formFields.forEach(formField => console.log(this.#createFormField(formField)))
+        // formElement.appendChild(this.#createTextAndNumberField({type: 'text', labels: ['czar']}))
+
+    }
+
+    #createFormElement() {
+        console.log('dz9a')
         const formElement = document.createElement('form');
         formElement.id = this.#id;
 
         const formHeader = document.createElement('h3');
         formHeader.className = 'mt-3';
         formHeader.textContent = this.#formHeaderText;
-
         formElement.appendChild(formHeader);
-
-        // UWAZAJ NA ID BO BYC MOZE TRZEBA BEDZIE BARDZIEJ ZADBACO ICH UNIKALNOSC
-        this.#textFields.forEach(textField => formElement.appendChild(this.#createTextField(textField)));
-        formElement.appendChild(FormManager.#createSubmitButton(this.#submitButtonMessage));
         formElement.addEventListener('submit', (event) => {
             event.preventDefault();
             // TODO Przeniesc w przyszlosci ta linie do submitCallback
@@ -44,18 +54,27 @@ export default class FormManager {
             console.log('-----------------------------------------------------------')
             ReservationService.addReservation(this.#formState);
             this.#submitCallback();
-        })
 
-        return formElement;
+        })
+        formElement.appendChild(FormManager.#createSubmitButton(this.#submitButtonMessage));
+        console.log(formElement)
+        return formElement
     }
 
-    getFormState() {
-        return this.#formState
+    #createFormFields(formField) {
+        const {type} = formField
+        switch (type) {
+            case 'number':
+                return this.#createTextAndNumberField(formField)
+            case 'text':
+                return this.#createTextAndNumberField(formField)
+
+        }
+
     }
 
     #createTextField(id) {
         const idLowerCase = id.toLowerCase();
-
 
         const formGroupElement = document.createElement('div');
         formGroupElement.className = 'form-group';
@@ -77,8 +96,39 @@ export default class FormManager {
             inputValue[idLowerCase] = e.target.value;
             this.#formState = {...this.#formState, ...inputValue}
         })
-
+        console.log(formGroupElement)
         return formGroupElement;
+
+    }
+
+
+    #createTextAndNumberField({type, labels}) {
+        return labels.forEach((label) => {
+            const idLowerCase = label.toLowerCase();
+
+            const formGroupElement = document.createElement('div');
+            formGroupElement.className = 'form-group';
+
+
+            const labelElement = document.createElement('label');
+            labelElement.setAttribute('for', `${idLowerCase}`);
+            labelElement.textContent = idLowerCase
+            formGroupElement.appendChild(labelElement);
+
+            const inputElement = document.createElement('input');
+            inputElement.id = idLowerCase;
+            inputElement.type = type;
+            inputElement.className = 'form-control'
+            formGroupElement.appendChild(inputElement)
+
+            inputElement.addEventListener('input', (e) => {
+                const inputValue = {};
+                inputValue[idLowerCase] = e.target.value;
+                this.#formState = {...this.#formState, ...inputValue}
+            })
+            console.log(formGroupElement)
+            return formGroupElement;
+        })
     }
 
     static #createSubmitButton(message) {

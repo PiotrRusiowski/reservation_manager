@@ -19,7 +19,7 @@ const removeOldTable = () => {
     console.log("remove")
 }
 const loadReservation = () => {
-    // removeOldTable()
+    removeOldTable()
     const table = tableManager.createTable(ReservationService.getAllProducts())
     reservationTable.appendChild(table)
 }
@@ -45,27 +45,26 @@ const tableManager = new TableManager({
         'guessList': {type: 'number', label: 'guestList'},
     },
 
-})
-
-
-loadReservation()
-
-
+});
 const filterManager = new FilterFormManager(filterReservations)
 
 const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',
     textFields: ['name', 'price', 'category', 'guest list'],
-    formFields: {
-        'number': {type: 'number', labels: ['price']},
-        'text': {type: 'text', labels: ['name', 'surname']},
-        select: {type: 'select', labels: ['hotelsNames']}
-    },
+    formFields: [
+        {type: 'number', labels: ['price']},
+        {type: 'text', labels: ['name', 'surname']},],
     submitButtonMessage: 'Add',
     submitCallback: loadReservation
 });
+
+
+loadReservation()
+
+
 const form = formManager.createForm()
+console.log(form)
 const filterForm = filterManager.createForm()
 addReservationForm.appendChild(form)
 filterReservationForm.appendChild(filterForm)
