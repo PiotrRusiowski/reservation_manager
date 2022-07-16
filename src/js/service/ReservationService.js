@@ -12,23 +12,12 @@ export default class ReservationService {
         new Reservation(3, 'BANAN', 7, 2)
     ]
 
-    /*#products = {
-        1: new Product(1, 'PRODUCT A', 1000, 'A'),
-        2: new Product(2, 'PRODUCT B', 2000, 'B'),
-        3: new Product(3, 'PRODUCT C', 3000, 'C')
-    }*/
-
-    /*#products = new Map(
-        [1, new Product(1, 'PRODUCT A', 1000, 'A')],
-        [2, new Product(2, 'PRODUCT B', 2000, 'B')],
-        [3, new Product(3, 'PRODUCT C', 3000, 'C')]
-    );*/
 
     static #ID = 4
 
-    static addReservation({name, price, category}) {
+    static addReservation({name, price, guestList}) {
         const id = ReservationService.#ID++;
-        ReservationService.#reservations.push(new Reservation(id, name, price, category));
+        ReservationService.#reservations.push(new Reservation(id, name, price, guestList));
     }
 
     static deleteProduct(id) {
@@ -42,16 +31,7 @@ export default class ReservationService {
     }
 
     static getAllProducts() {
-        // const client = contentful.createClient({
-        //     accessToken: 'cJJxb2Fhyuv_4FbjPkqK775QONkUCNs8D-Mhq_LTvyI',
-        //     space: 'sqqzspaai3js',
-        // })
-        //
-        // client.getEntries({
-        //     content_type: "product",
-        // })
-        //     .then((res) => console.log(res))
-        //     .catch((error) => console.error(error));
+
         return ReservationService.#reservations
     };
 

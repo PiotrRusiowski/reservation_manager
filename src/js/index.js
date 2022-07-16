@@ -42,7 +42,7 @@ const tableManager = new TableManager({
         'id': {type: 'number', label: 'ID'},
         'hotelName': {type: 'string', label: 'Hotel Name'},
         'price': {type: 'number', label: 'price'},
-        'guessList': {type: 'number', label: 'guestList'},
+        'guestList': {type: 'number', label: 'guestList'},
     },
 
 });
@@ -51,10 +51,10 @@ const filterManager = new FilterFormManager(filterReservations)
 const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',
-    textFields: ['name', 'price', 'category', 'guest list'],
     formFields: [
         {type: 'number', labels: ['price']},
-        {type: 'text', labels: ['name', 'surname', 'guest list']},
+        {type: 'text', labels: ['name', 'surname', 'guestList']},
+        {type: 'select', options: ['hotel 1', 'hotel 2', 'hotel 3', 'hotel 4']}
 
     ],
     submitButtonMessage: 'Add',

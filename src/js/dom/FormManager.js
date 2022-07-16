@@ -12,7 +12,6 @@ export default class FormManager {
 
     constructor({
                     id,
-                    textFields = [],
                     submitButtonMessage = 'SEND',
                     submitCallback = function () {
                     },
@@ -53,10 +52,13 @@ export default class FormManager {
         const {type} = formField
         switch (type) {
             case 'number':
-                return this.#createTextAndNumberField(formField)
+                this.#createTextAndNumberField(formField)
+                break
             case 'text':
-                return this.#createTextAndNumberField(formField)
-
+                this.#createTextAndNumberField(formField)
+                break
+            case 'select':
+                this.#createSelectField(formField)
         }
 
     }
@@ -64,7 +66,7 @@ export default class FormManager {
 
     #createTextAndNumberField({labels, type}) {
         return labels.forEach((label) => {
-            const idLowerCase = label.toLowerCase();
+            const idLowerCase = label.charAt(0).toLowerCase() + label.slice(1)
 
             const formGroupElement = document.createElement('div');
             formGroupElement.className = 'form-group';
@@ -88,6 +90,14 @@ export default class FormManager {
             })
             this.#formElement.appendChild(formGroupElement)
         })
+    }
+
+    #createSelectField({options}) {
+        const formGroupElement = document.createElement('div');
+        formGroupElement.className = 'form-group';
+        const selectElement = document.createElement('select');
+        selectElement.className = 'form-select'
+
     }
 
     static #createSubmitButton(message) {
