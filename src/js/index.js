@@ -54,7 +54,9 @@ const formManager = new FormManager({
     textFields: ['name', 'price', 'category', 'guest list'],
     formFields: [
         {type: 'number', labels: ['price']},
-        {type: 'text', labels: ['name', 'surname']},],
+        {type: 'text', labels: ['name', 'surname', 'guest list']},
+
+    ],
     submitButtonMessage: 'Add',
     submitCallback: loadReservation
 });

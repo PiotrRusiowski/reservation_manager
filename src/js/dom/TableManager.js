@@ -30,7 +30,6 @@ export default class TableManager {
     }
 
     #changeSort(key) {
-        console.log(key, this.#sortKey, this.#sortOrder)
         if (key === this.#sortKey) {
             this.#sortOrder = this.#sortOrder === 1 ? -1 : 1;
         }

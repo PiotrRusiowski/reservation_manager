@@ -2,12 +2,12 @@ import ReservationService from "../service/ReservationService";
 
 export default class FormManager {
     #id;
-    #textFields = [];
+    #formElement = [];
     #submitButtonMessage = 'Send';
     #submitCallback;
     #formHeaderText = '';
     #formState = {};
-    #formFields
+    #formFields = [];
 
 
     constructor({
@@ -20,7 +20,6 @@ export default class FormManager {
                     formFields = {}
                 }) {
         this.#id = id;
-        this.#textFields = textFields;
         this.#submitButtonMessage = submitButtonMessage;
         this.#submitCallback = submitCallback;
         this.#formHeaderText = formHeaderText;
@@ -28,37 +27,26 @@ export default class FormManager {
     }
 
     createForm() {
-        console.log(this.#formFields)
-
-        return this.#createFormElement()
-        // UWAZAJ NA ID BO BYC MOZE TRZEBA BEDZIE BARDZIEJ ZADBACO ICH UNIKALNOSC
-        // this.#formFields.forEach(formField => console.log(this.#createFormField(formField)))
-        // formElement.appendChild(this.#createTextAndNumberField({type: 'text', labels: ['czar']}))
-
-    }
-
-    #createFormElement() {
-        console.log('dz9a')
         const formElement = document.createElement('form');
         formElement.id = this.#id;
-
+        this.#formElement = formElement;
         const formHeader = document.createElement('h3');
         formHeader.className = 'mt-3';
         formHeader.textContent = this.#formHeaderText;
         formElement.appendChild(formHeader);
+
+        this.#formFields.forEach((el) => this.#createFormFields(el))
+
         formElement.addEventListener('submit', (event) => {
             event.preventDefault();
-            // TODO Przeniesc w przyszlosci ta linie do submitCallback
-            console.log('-----------------------------------------------------------')
             console.log(this.#formState)
-            console.log('-----------------------------------------------------------')
             ReservationService.addReservation(this.#formState);
             this.#submitCallback();
 
         })
         formElement.appendChild(FormManager.#createSubmitButton(this.#submitButtonMessage));
-        console.log(formElement)
         return formElement
+
     }
 
     #createFormFields(formField) {
@@ -73,36 +61,8 @@ export default class FormManager {
 
     }
 
-    #createTextField(id) {
-        const idLowerCase = id.toLowerCase();
 
-        const formGroupElement = document.createElement('div');
-        formGroupElement.className = 'form-group';
-
-
-        const labelElement = document.createElement('label');
-        labelElement.setAttribute('for', `${idLowerCase}`);
-        labelElement.textContent = idLowerCase
-        formGroupElement.appendChild(labelElement);
-
-        const inputElement = document.createElement('input');
-        inputElement.id = idLowerCase;
-        inputElement.type = 'text';
-        inputElement.className = 'form-control'
-        formGroupElement.appendChild(inputElement)
-
-        inputElement.addEventListener('input', (e) => {
-            const inputValue = {};
-            inputValue[idLowerCase] = e.target.value;
-            this.#formState = {...this.#formState, ...inputValue}
-        })
-        console.log(formGroupElement)
-        return formGroupElement;
-
-    }
-
-
-    #createTextAndNumberField({type, labels}) {
+    #createTextAndNumberField({labels, type}) {
         return labels.forEach((label) => {
             const idLowerCase = label.toLowerCase();
 
@@ -126,8 +86,7 @@ export default class FormManager {
                 inputValue[idLowerCase] = e.target.value;
                 this.#formState = {...this.#formState, ...inputValue}
             })
-            console.log(formGroupElement)
-            return formGroupElement;
+            this.#formElement.appendChild(formGroupElement)
         })
     }
 
