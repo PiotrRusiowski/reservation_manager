@@ -39,6 +39,7 @@ export default class FormManager {
         formElement.addEventListener('submit', (event) => {
             event.preventDefault();
             console.log(this.#formState)
+
             ReservationService.addReservation(this.#formState);
             this.#submitCallback();
 
@@ -67,10 +68,7 @@ export default class FormManager {
     #createTextAndNumberField({labels, type}) {
         return labels.forEach((label) => {
             const idLowerCase = label.charAt(0).toLowerCase() + label.slice(1)
-
-            const formGroupElement = document.createElement('div');
-            formGroupElement.className = 'form-group';
-
+            const formGroupElement = FormManager.#createFormGroupElement();
 
             const labelElement = document.createElement('label');
             labelElement.setAttribute('for', `${idLowerCase}`);
@@ -83,20 +81,26 @@ export default class FormManager {
             inputElement.className = 'form-control'
             formGroupElement.appendChild(inputElement)
 
-            inputElement.addEventListener('input', (e) => {
-                const inputValue = {};
-                inputValue[idLowerCase] = e.target.value;
-                this.#formState = {...this.#formState, ...inputValue}
-            })
+            inputElement.addEventListener('input', (e) => this.#setState(e, idLowerCase))
             this.#formElement.appendChild(formGroupElement)
         })
     }
 
-    #createSelectField({options}) {
-        const formGroupElement = document.createElement('div');
-        formGroupElement.className = 'form-group';
+    #createSelectField({label, options}) {
+        const formGroupElement = FormManager.#createFormGroupElement();
+        this.#formElement.appendChild(formGroupElement)
+
         const selectElement = document.createElement('select');
-        selectElement.className = 'form-select'
+        selectElement.id = label
+        selectElement.className = 'form-control'
+        formGroupElement.appendChild(selectElement)
+        options.forEach((option) => {
+            const optionElement = document.createElement('option')
+            optionElement.textContent = option
+            return selectElement.appendChild(optionElement);
+        })
+        selectElement.addEventListener('change', (e) => this.#setState(e, label))
+        return formGroupElement
 
     }
 
@@ -108,5 +112,19 @@ export default class FormManager {
         buttonElement.textContent = formattedMessage;
 
         return buttonElement;
+    }
+
+    static #createFormGroupElement() {
+        const formGroupElement = document.createElement('div');
+        formGroupElement.className = 'form-group';
+        return formGroupElement;
+
+    }
+
+    #setState(e, name) {
+        console.log(e.target.value)
+        const inputValue = {};
+        inputValue[name] = e.target.value;
+        this.#formState = {...this.#formState, ...inputValue}
     }
 }

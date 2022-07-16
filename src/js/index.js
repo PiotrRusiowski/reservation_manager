@@ -54,7 +54,7 @@ const formManager = new FormManager({
     formFields: [
         {type: 'number', labels: ['price']},
         {type: 'text', labels: ['name', 'surname', 'guestList']},
-        {type: 'select', options: ['hotel 1', 'hotel 2', 'hotel 3', 'hotel 4']}
+        {type: 'select', label: 'hotelName', options: ['hotel 1', 'hotel 2', 'hotel 3', 'hotel 4']}
 
     ],
     submitButtonMessage: 'Add',
