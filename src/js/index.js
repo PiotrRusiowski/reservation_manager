@@ -4,6 +4,7 @@ import * as bootstrap from 'bootstrap';
 import TableManager from "./dom/TableManager";
 import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
+import HotelService from "./service/HotelService";
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -54,7 +55,12 @@ const formManager = new FormManager({
     formFields: [
         {type: 'number', labels: ['price']},
         {type: 'text', labels: ['name', 'surname', 'guestList']},
-        {type: 'select', label: 'hotelName', options: ['hotel 1', 'hotel 2', 'hotel 3', 'hotel 4']}
+        {
+            type: 'select',
+            label: 'hotelName',
+            options: new HotelService.getAllHotels().map((option) => HotelService.info(option)),
+            hotels: new HotelService().getAllHotels()
+        }
 
     ],
     submitButtonMessage: 'Add',
