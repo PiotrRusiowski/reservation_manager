@@ -66,7 +66,6 @@ loadReservation()
 
 
 const form = formManager.createForm()
-console.log(form)
 const filterForm = filterManager.createForm()
 addReservationForm.appendChild(form)
 filterReservationForm.appendChild(filterForm)

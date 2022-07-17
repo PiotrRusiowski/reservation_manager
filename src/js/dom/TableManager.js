@@ -16,7 +16,6 @@ export default class TableManager {
     #sort(key) {
         this.#sortKey = key;
 
-        console.log(this.#columns, key)
 
         switch (this.#columns[key].type) {
             case 'string':
@@ -42,7 +41,6 @@ export default class TableManager {
 
     createTable(rows) {
         this.#rows = rows
-
         const tableElement = document.createElement('table');
         tableElement.className = 'table table-striped table-hover';
         const theadElement = this.#createHeader();
@@ -61,7 +59,6 @@ export default class TableManager {
 
             const headerElementTH = document.createElement('th');
             const headerElementTHData = document.createTextNode(column.label);
-            // headerElementTH.setAttribute('data-key', column);
             headerElementTH.appendChild(headerElementTHData);
 
             headerElementTH.addEventListener("click", () => this.#changeSort(key))
@@ -73,13 +70,14 @@ export default class TableManager {
     }
 
     #createRow(row) {
-        console.log(this.#rowClickCallback)
         const rowElementTR = document.createElement('tr');
         rowElementTR.addEventListener('click', this.#rowClickCallback);
-        Object.values(row).forEach(value => {
+        Object.values(row).forEach((value, idx) => {
+            console.log()
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', row.id);
-            rowElementTD.textContent = (String(value))
+            rowElementTD.textContent = (String(value));
+
             rowElementTR.appendChild(rowElementTD);
         });
         return rowElementTR;

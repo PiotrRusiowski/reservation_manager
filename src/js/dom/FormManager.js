@@ -38,8 +38,6 @@ export default class FormManager {
 
         formElement.addEventListener('submit', (event) => {
             event.preventDefault();
-            console.log(this.#formState)
-
             ReservationService.addReservation(this.#formState);
             this.#submitCallback();
 
@@ -122,7 +120,6 @@ export default class FormManager {
     }
 
     #setState(e, name) {
-        console.log(e.target.value)
         const inputValue = {};
         inputValue[name] = e.target.value;
         this.#formState = {...this.#formState, ...inputValue}
