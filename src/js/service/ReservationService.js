@@ -16,7 +16,6 @@ export default class ReservationService {
     static #ID = 4
 
     static addReservation({price, guestNumber, hotelName, daysNumber}) {
-        console.log({price, guestNumber, hotelName})
         const id = ReservationService.#ID++;
         ReservationService.#reservations.push(new Reservation(id, hotelName, price, guestNumber, daysNumber));
     }

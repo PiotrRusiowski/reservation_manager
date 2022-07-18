@@ -4,10 +4,7 @@ export default class FormManager {
     #submitButtonMessage = 'Send';
     #submitCallback;
     #formHeaderText = '';
-    #formState = {
-        price: 0,
-        guestNumber: 0,
-    };
+    #formState = {};
     #formFields = [];
 
 
@@ -35,13 +32,12 @@ export default class FormManager {
         formHeader.textContent = this.#formHeaderText;
         formElement.appendChild(formHeader);
 
-        this.#formFields.forEach((el) => this.#createFormFields(el))
+        this.#formFields.forEach((el) => this.#createFormFields(el));
 
-        formElement.addEventListener('submit', (event) => {
-            event.preventDefault()
+        formElement.addEventListener('submit', (e) => {
+            e.preventDefault()
             this.#submitCallback(this.#formState);
-
-        })
+        });
         formElement.appendChild(FormManager.#createSubmitButton(this.#submitButtonMessage));
         return formElement
 

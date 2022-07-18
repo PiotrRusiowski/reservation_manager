@@ -42,8 +42,8 @@ const tableManager = new TableManager({
     columns: {
         id: {type: 'number', label: 'ID'},
         hotelName: {type: 'string', label: 'Hotel Name'},
-        guestNumber: {type: 'number', label: 'guestNumber'},
         price: {type: 'number', label: 'price'},
+        guestNumber: {type: 'number', label: 'guestNumber'},
         daysNumber: {type: 'number', label: 'daysNumber'},
 
     },
@@ -64,9 +64,10 @@ const formManager = new FormManager({
 
     ],
     submitButtonMessage: 'Add',
-    submitCallback: (state) => {
+    submitCallback: ({hotelName, guestNumber, daysNumber}) => {
         ReservationService.addReservation
-        (formManager.setState(HotelService.findHotelByName(state.hotelName).getTotalPrice(+state.guestNumber), 'price'));
+        (formManager.setState(HotelService.findHotelByName(hotelName)
+            .getTotalPrice(+guestNumber, +daysNumber), 'price'));
         loadReservation()
     }
 });
