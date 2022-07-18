@@ -40,10 +40,12 @@ const tableManager = new TableManager({
     rowClickCallback: deleteReservation,
     sortKey: 'id',
     columns: {
-        'id': {type: 'number', label: 'ID'},
-        'hotelName': {type: 'string', label: 'Hotel Name'},
-        'price': {type: 'number', label: 'price'},
-        'guestNumber': {type: 'number', label: 'guestNumber'},
+        id: {type: 'number', label: 'ID'},
+        hotelName: {type: 'string', label: 'Hotel Name'},
+        guestNumber: {type: 'number', label: 'guestNumber'},
+        price: {type: 'number', label: 'price'},
+        daysNumber: {type: 'number', label: 'daysNumber'},
+
     },
 
 });
@@ -53,7 +55,7 @@ const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',
     formFields: [
-        {type: 'number', labels: ['guestNumber']},
+        {type: 'number', labels: ['guestNumber', 'daysNumber']},
         {
             type: 'select',
             label: 'hotelName',
@@ -62,7 +64,11 @@ const formManager = new FormManager({
 
     ],
     submitButtonMessage: 'Add',
-    submitCallback: loadReservation
+    submitCallback: (state) => {
+        ReservationService.addReservation
+        (formManager.setState(HotelService.findHotelByName(state.hotelName).getTotalPrice(+state.guestNumber), 'price'));
+        loadReservation()
+    }
 });
 
 

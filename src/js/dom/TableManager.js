@@ -15,16 +15,16 @@ export default class TableManager {
 
     #sort(key) {
         this.#sortKey = key;
-
-
         switch (this.#columns[key].type) {
             case 'string':
                 this.#rows = [...this.#rows].sort((a, b) => this.#sortOrder === 1 ?
                     a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]))
                 break
             case 'number':
-                this.#rows = [...this.#rows].sort((a, b) => this.#sortOrder === 1 ?
-                    a[key] - b[key] : b[key] - a[key])
+                this.#rows = [...this.#rows].sort((a, b) => {
+                    return this.#sortOrder === 1 ?
+                        a[key] - b[key] : b[key] - a[key]
+                })
         }
     }
 
@@ -33,9 +33,7 @@ export default class TableManager {
             this.#sortOrder = this.#sortOrder === 1 ? -1 : 1;
         }
         this.#sortKey = key;
-
         this.#sort(key);
-        //
         this.#reloadTable()
     }
 
@@ -72,7 +70,7 @@ export default class TableManager {
     #createRow(row) {
         const rowElementTR = document.createElement('tr');
         rowElementTR.addEventListener('click', this.#rowClickCallback);
-        Object.values(row).forEach((value, idx) => {
+        Object.values(row).forEach((value,) => {
             console.log()
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', row.id);

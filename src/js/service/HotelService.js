@@ -14,5 +14,8 @@ export default class HotelService {
         return HotelService.#hotels
     }
 
+    static findHotelByName(name) {
+        return HotelService.#hotels.filter((hotel) => hotel.name === name)[0]
+    }
 
 }

@@ -1,5 +1,3 @@
-import ReservationService from "../service/ReservationService";
-
 export default class FormManager {
     #id;
     #formElement = [];
@@ -41,10 +39,7 @@ export default class FormManager {
 
         formElement.addEventListener('submit', (event) => {
             event.preventDefault()
-
-            ////
-            ReservationService.addReservation(this.#formState);
-            this.#submitCallback();
+            this.#submitCallback(this.#formState);
 
         })
         formElement.appendChild(FormManager.#createSubmitButton(this.#submitButtonMessage));
@@ -84,7 +79,7 @@ export default class FormManager {
             inputElement.className = 'form-control'
             formGroupElement.appendChild(inputElement)
 
-            inputElement.addEventListener('input', (e) => this.#setState(e.target.value, idLowerCase))
+            inputElement.addEventListener('input', (e) => this.setState(e.target.value, idLowerCase))
             this.#formElement.appendChild(formGroupElement)
         })
     }
@@ -102,8 +97,7 @@ export default class FormManager {
             const optionElement = document.createElement('option')
             optionElement.textContent = hotel.info()
             selectElement.addEventListener('change', (e) => {
-                this.#setState(e.target.value, label)
-                this.#setState(hotel.getTotalPrice(this.#formState.guestNumber), 'price')
+                this.setState(hotel.name, label)
             })
             return selectElement.appendChild(optionElement);
         });
@@ -131,10 +125,10 @@ export default class FormManager {
     }
 
 
-    #setState(e, name) {
+    setState(e, name) {
         const inputValue = {};
         inputValue[name] = e
-        this.#formState = {...this.#formState, ...inputValue}
-        console.log(this.#formState)
+        return this.#formState = {...this.#formState, ...inputValue}
+
     }
 }

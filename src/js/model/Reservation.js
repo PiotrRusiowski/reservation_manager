@@ -1,13 +1,14 @@
 export default class Reservation {
-    constructor(id, hotelName, guestList, price) {
+    constructor(id, hotelName, guestNumber, price, daysNumber) {
         this.id = id
         this.hotelName = hotelName
-        this.guestList = guestList
+        this.guestNumber = guestNumber
         this.price = price
+        this.daysNumber = daysNumber
     }
 
     toString() {
-        return `${this.id}${this.hotelName}${this.guestList}${this.price}`
+        return `${this.id}${this.hotelName}${this.guestNumber}${this.price}`
     }
 
     json() {
