@@ -5,4 +5,11 @@ export default class Hotel {
         this.price = price;
     }
 
+    info() {
+        return `'${this.name}' - cost per day: ${this.price}pln`
+    }
+
+    getTotalPrice(guestNumber) {
+        return this.price * guestNumber
+    }
 }

@@ -6,7 +6,10 @@ export default class FormManager {
     #submitButtonMessage = 'Send';
     #submitCallback;
     #formHeaderText = '';
-    #formState = {};
+    #formState = {
+        price: 0,
+        guestNumber: 0,
+    };
     #formFields = [];
 
 
@@ -37,7 +40,9 @@ export default class FormManager {
         this.#formFields.forEach((el) => this.#createFormFields(el))
 
         formElement.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault()
+
+            ////
             ReservationService.addReservation(this.#formState);
             this.#submitCallback();
 
@@ -60,7 +65,7 @@ export default class FormManager {
                 this.#createSelectField(formField)
         }
 
-    }
+    };
 
 
     #createTextAndNumberField({labels, type}) {
@@ -79,10 +84,11 @@ export default class FormManager {
             inputElement.className = 'form-control'
             formGroupElement.appendChild(inputElement)
 
-            inputElement.addEventListener('input', (e) => this.#setState(e, idLowerCase))
+            inputElement.addEventListener('input', (e) => this.#setState(e.target.value, idLowerCase))
             this.#formElement.appendChild(formGroupElement)
         })
     }
+
 
     #createSelectField({label, options}) {
         const formGroupElement = FormManager.#createFormGroupElement();
@@ -91,16 +97,21 @@ export default class FormManager {
         const selectElement = document.createElement('select');
         selectElement.id = label
         selectElement.className = 'form-control'
-        formGroupElement.appendChild(selectElement)
-        options.forEach((option) => {
+        formGroupElement.appendChild(selectElement);
+        options.forEach((hotel) => {
             const optionElement = document.createElement('option')
-            optionElement.textContent = option
+            optionElement.textContent = hotel.info()
+            selectElement.addEventListener('change', (e) => {
+                this.#setState(e.target.value, label)
+                this.#setState(hotel.getTotalPrice(this.#formState.guestNumber), 'price')
+            })
             return selectElement.appendChild(optionElement);
-        })
-        selectElement.addEventListener('change', (e) => this.#setState(e, label))
+        });
+
         return formGroupElement
 
     }
+
 
     static #createSubmitButton(message) {
         const formattedMessage = message.toUpperCase();
@@ -119,9 +130,11 @@ export default class FormManager {
 
     }
 
+
     #setState(e, name) {
         const inputValue = {};
-        inputValue[name] = e.target.value;
+        inputValue[name] = e
         this.#formState = {...this.#formState, ...inputValue}
+        console.log(this.#formState)
     }
 }

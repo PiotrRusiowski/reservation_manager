@@ -14,11 +14,5 @@ export default class HotelService {
         return HotelService.#hotels
     }
 
-    static info(hotel) {
-        return `'${hotel.name}' - cost per day: ${hotel.price}pln`
-    }
 
-    static getTotalPrice(hotelPrice, guestNumber) {
-        return hotelPrice * guestNumber
-    }
 }

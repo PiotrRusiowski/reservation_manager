@@ -43,7 +43,7 @@ const tableManager = new TableManager({
         'id': {type: 'number', label: 'ID'},
         'hotelName': {type: 'string', label: 'Hotel Name'},
         'price': {type: 'number', label: 'price'},
-        'guestList': {type: 'number', label: 'guestList'},
+        'guestNumber': {type: 'number', label: 'guestNumber'},
     },
 
 });
@@ -53,13 +53,11 @@ const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new product',
     formFields: [
-        {type: 'number', labels: ['price']},
-        {type: 'text', labels: ['name', 'surname', 'guestList']},
+        {type: 'number', labels: ['guestNumber']},
         {
             type: 'select',
             label: 'hotelName',
-            options: new HotelService.getAllHotels().map((option) => HotelService.info(option)),
-            hotels: new HotelService().getAllHotels()
+            options: new HotelService.getAllHotels(),
         }
 
     ],
