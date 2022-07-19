@@ -5,6 +5,7 @@ import TableManager from "./dom/TableManager";
 import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
 import HotelService from "./service/HotelService";
+import Reservation from "./model/Reservation";
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -45,8 +46,8 @@ const tableManager = new TableManager({
         guestNumber: {type: 'number', label: 'guestNumber'},
         daysNumber: {type: 'number', label: 'daysNumber'},
         price: {type: 'number', label: 'price'},
-
-
+        checkIn: {type: 'number', label: 'checkIn'},
+        checkOut: {type: 'number', label: 'checkOut'}
     },
 
 });
@@ -56,7 +57,7 @@ const formManager = new FormManager({
     id: 'my-form',
     formHeaderText: 'Add new reservation',
     formFields: [
-        {type: 'number', labels: ['guestNumber', 'daysNumber']},
+        {type: 'number', labels: ['guestNumber']},
         {
             type: 'select',
             label: 'hotelName',
@@ -66,15 +67,20 @@ const formManager = new FormManager({
 
     ],
     submitButtonMessage: 'Add',
-    submitCallback: ({hotelName, guestNumber, daysNumber}) => {
-        ReservationService.addReservation
-        (formManager.setState(HotelService.findHotelByName(hotelName)
-            .getTotalPrice(+guestNumber, +daysNumber), 'price'));
-
+    submitCallback: ({hotelName, guestNumber, checkIn, checkOut}) => {
+        const stayDays = Reservation.getStayDays(checkIn, checkOut);
+        formManager.setState(stayDays, 'daysNumber');
+        ReservationService.addReservation(formManager
+            .setState(Reservation.getTotalPrice(HotelService
+                .findHotelByName(hotelName).price, +guestNumber, stayDays), 'price'));
         loadReservation()
     }
-});
 
+
+});
+const getStaydays = () => {
+
+}
 
 loadReservation()
 

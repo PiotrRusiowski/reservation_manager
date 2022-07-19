@@ -4,17 +4,17 @@ export default class ReservationService {
 
 
     static #reservations = [
-        new Reservation(1, 'hostel', 10, 4, 10),
-        new Reservation(2, 'hostel', 200, 1, 2),
-        new Reservation(3, 'BANAN', 7, 2, 4)
+        new Reservation(1, 'hostel', 10, 4, 10, '12-10-2022', '12-11-2022'),
+        new Reservation(2, 'hostel', 200, 1, 2, '12-12-2022', '12-11-2022'),
+        new Reservation(3, 'BANAN', 7, 2, 4, '12-10-2022', '12-11-2022')
     ]
 
 
     static #ID = 4
 
-    static addReservation({price, guestNumber, hotelName, daysNumber}) {
+    static addReservation({price, guestNumber, hotelName, daysNumber, checkIn, checkOut}) {
         const id = ReservationService.#ID++;
-        ReservationService.#reservations.push(new Reservation(id, hotelName, guestNumber, daysNumber, price));
+        ReservationService.#reservations.push(new Reservation(id, hotelName, guestNumber, daysNumber, price, checkIn, checkOut));
     }
 
     static deleteProduct(id) {
@@ -28,8 +28,8 @@ export default class ReservationService {
     }
 
     static getAllProducts() {
-        return ReservationService.#reservations.map(({hotelName, guestNumber, price, daysNumber}, idx) => {
-            return new Reservation(idx + 1, hotelName, guestNumber, price, daysNumber)
+        return ReservationService.#reservations.map((res, idx) => {
+            return new Reservation(idx + 1, res.hotelName, res.guestNumber, res.price, res.daysNumber, res.checkIn, res.checkOut)
         })
     };
 

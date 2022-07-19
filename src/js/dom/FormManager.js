@@ -75,6 +75,7 @@ export default class FormManager {
             inputElement.className = 'form-control'
             formGroupElement.appendChild(inputElement)
 
+
             inputElement.addEventListener('input', (e) => this.setState(e.target.value, label))
             this.#formElement.appendChild(formGroupElement)
         })
