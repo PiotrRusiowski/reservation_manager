@@ -1,7 +1,5 @@
 export default class FilterFormManager {
     #inputCallback;
-    #formState = {};
-
 
     constructor(
         inputCallback
@@ -13,7 +11,6 @@ export default class FilterFormManager {
         const formElement = document.createElement('form');
         // formElement.id = this.#id;
         const formHeader = document.createElement('h3');
-        formHeader.textContent = 'filter'
         formElement.appendChild(formHeader);
         formElement.appendChild(this.#createSearchInput())
         return formElement

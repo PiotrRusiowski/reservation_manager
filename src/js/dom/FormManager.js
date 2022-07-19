@@ -54,10 +54,33 @@ export default class FormManager {
                 break
             case 'select':
                 this.#createSelectField(formField)
+                break
+            case 'date':
+                this.#createDateField(formField)
         }
 
     };
 
+    #createDateField({type, labels}) {
+        return labels.forEach((label) => {
+            const formGroupElement = FormManager.#createFormGroupElement();
+            const labelElement = document.createElement('label');
+            labelElement.setAttribute('for', `${label}`);
+            labelElement.textContent = label;
+            formGroupElement.appendChild(labelElement);
+
+            const inputElement = document.createElement('input');
+            inputElement.id = label;
+            inputElement.type = type;
+            inputElement.className = 'form-control'
+            formGroupElement.appendChild(inputElement)
+
+            inputElement.addEventListener('input', (e) => this.setState(e.target.value, label))
+            this.#formElement.appendChild(formGroupElement)
+        })
+
+
+    }
 
     #createTextAndNumberField({labels, type}) {
         return labels.forEach((label) => {
@@ -122,6 +145,7 @@ export default class FormManager {
 
 
     setState(e, name) {
+        console.log(this.#formState)
         const inputValue = {};
         inputValue[name] = e
         return this.#formState = {...this.#formState, ...inputValue}

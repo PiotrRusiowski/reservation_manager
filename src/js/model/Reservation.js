@@ -5,6 +5,7 @@ export default class Reservation {
         this.guestNumber = guestNumber
         this.price = price
         this.daysNumber = daysNumber
+
     }
 
     toString() {

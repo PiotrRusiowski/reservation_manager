@@ -42,9 +42,10 @@ const tableManager = new TableManager({
     columns: {
         id: {type: 'number', label: 'ID'},
         hotelName: {type: 'string', label: 'Hotel Name'},
-        price: {type: 'number', label: 'price'},
         guestNumber: {type: 'number', label: 'guestNumber'},
         daysNumber: {type: 'number', label: 'daysNumber'},
+        price: {type: 'number', label: 'price'},
+
 
     },
 
@@ -53,14 +54,15 @@ const filterManager = new FilterFormManager(filterReservations)
 
 const formManager = new FormManager({
     id: 'my-form',
-    formHeaderText: 'Add new product',
+    formHeaderText: 'Add new reservation',
     formFields: [
         {type: 'number', labels: ['guestNumber', 'daysNumber']},
         {
             type: 'select',
             label: 'hotelName',
             options: new HotelService.getAllHotels(),
-        }
+        },
+        {type: 'date', labels: ['checkIn', 'checkOut']}
 
     ],
     submitButtonMessage: 'Add',
@@ -68,6 +70,7 @@ const formManager = new FormManager({
         ReservationService.addReservation
         (formManager.setState(HotelService.findHotelByName(hotelName)
             .getTotalPrice(+guestNumber, +daysNumber), 'price'));
+
         loadReservation()
     }
 });

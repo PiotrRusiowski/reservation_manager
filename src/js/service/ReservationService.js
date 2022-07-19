@@ -3,9 +3,6 @@ import Reservation from "../model/Reservation";
 export default class ReservationService {
 
 
-    constructor() {
-    }
-
     static #reservations = [
         new Reservation(1, 'hostel', 10, 4, 10),
         new Reservation(2, 'hostel', 200, 1, 2),
@@ -17,7 +14,7 @@ export default class ReservationService {
 
     static addReservation({price, guestNumber, hotelName, daysNumber}) {
         const id = ReservationService.#ID++;
-        ReservationService.#reservations.push(new Reservation(id, hotelName, price, guestNumber, daysNumber));
+        ReservationService.#reservations.push(new Reservation(id, hotelName, guestNumber, daysNumber, price));
     }
 
     static deleteProduct(id) {

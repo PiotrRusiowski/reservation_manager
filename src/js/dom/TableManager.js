@@ -69,13 +69,11 @@ export default class TableManager {
 
     #createRow(row) {
         const rowElementTR = document.createElement('tr');
-        rowElementTR.addEventListener('click', this.#rowClickCallback);
+        rowElementTR.addEventListener('dblclick', this.#rowClickCallback);
         Object.values(row).forEach((value,) => {
-            console.log()
             const rowElementTD = document.createElement('td');
             rowElementTD.setAttribute('reservationId', row.id);
             rowElementTD.textContent = (String(value));
-
             rowElementTR.appendChild(rowElementTD);
         });
         return rowElementTR;
