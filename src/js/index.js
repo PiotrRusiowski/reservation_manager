@@ -44,7 +44,7 @@ const tableManager = new TableManager({
         id: {type: 'number', label: 'ID'},
         hotelName: {type: 'string', label: 'Hotel Name'},
         guestNumber: {type: 'number', label: 'guestNumber'},
-        daysNumber: {type: 'number', label: 'daysNumber'},
+        stayNumbers: {type: 'number', label: 'stayNumbers'},
         price: {type: 'number', label: 'price'},
         checkIn: {type: 'number', label: 'checkIn'},
         checkOut: {type: 'number', label: 'checkOut'}

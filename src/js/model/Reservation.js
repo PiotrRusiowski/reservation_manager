@@ -2,12 +2,12 @@ import dayjs from "dayjs";
 
 
 export default class Reservation {
-    constructor(id, hotelName, guestNumber, price, stayDays, checkIn, checkOut) {
+    constructor(id, hotelName, guestNumber, price, daysNumber, checkIn, checkOut) {
         this.id = id
         this.hotelName = hotelName
         this.guestNumber = guestNumber
         this.price = price
-        this.stayDays = stayDays
+        this.daysNumber = daysNumber
         this.checkIn = checkIn
         this.checkOut = checkOut
 
