@@ -152,4 +152,8 @@ export default class FormManager {
         return this.#formState = {...this.#formState, ...inputValue}
 
     }
+
+    getFormState() {
+        return this.#formState
+    }
 }

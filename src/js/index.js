@@ -6,6 +6,7 @@ import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
 import HotelService from "./service/HotelService";
 import Reservation from "./model/Reservation";
+import dayjs from "dayjs";
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -44,7 +45,7 @@ const tableManager = new TableManager({
         id: {type: 'number', label: 'ID'},
         hotelName: {type: 'string', label: 'Hotel Name'},
         guestNumber: {type: 'number', label: 'guestNumber'},
-        stayNumbers: {type: 'number', label: 'stayNumbers'},
+        stayDays: {type: 'number', label: 'stayDays'},
         price: {type: 'number', label: 'price'},
         checkIn: {type: 'number', label: 'checkIn'},
         checkOut: {type: 'number', label: 'checkOut'}
@@ -68,8 +69,11 @@ const formManager = new FormManager({
     ],
     submitButtonMessage: 'Add',
     submitCallback: ({hotelName, guestNumber, checkIn, checkOut}) => {
+        console.log('formStae', formManager.getFormState())
         const stayDays = Reservation.getStayDays(checkIn, checkOut);
-        formManager.setState(stayDays, 'daysNumber');
+        console.log(stayDays)
+        formManager.setState(dayjs(checkIn).format('DD/MM/YYYY'), 'checkIn')
+        formManager.setState(stayDays, 'stayDays');
         ReservationService.addReservation(formManager
             .setState(Reservation.getTotalPrice(HotelService
                 .findHotelByName(hotelName).price, +guestNumber, stayDays), 'price'));
