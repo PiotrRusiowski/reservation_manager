@@ -115,13 +115,15 @@ export default class FormManager {
         formGroupElement.appendChild(selectElement);
         options.forEach((hotel) => {
             const optionElement = document.createElement('option')
+            optionElement.className = 'hotel-option'
             optionElement.textContent = hotel.info()
-            selectElement.addEventListener('change', (e) => {
-                this.setState(hotel.name, label)
-            })
+            optionElement.setAttribute('hotel-id', `${hotel.id}`)
+
             return selectElement.appendChild(optionElement);
         });
-
+        formGroupElement.addEventListener("change", function () {
+            console.log(this)
+        })
         return formGroupElement
 
     }

@@ -1,4 +1,5 @@
 import Reservation from "../model/Reservation";
+import HotelService from "./HotelService";
 
 export default class ReservationService {
 
@@ -12,8 +13,10 @@ export default class ReservationService {
 
     static #ID = 4
 
-    static addReservation({price, guestNumber, hotelName, stayDays, checkIn, checkOut}) {
-
+    static addReservation({guestNumber, hotelName, checkIn, checkOut}) {
+        const stayDays = Reservation.getStayDays(checkIn, checkOut);
+        const price = Reservation.getTotalPrice(HotelService
+            .findHotelByName(hotelName).price, +guestNumber, stayDays);
         const id = ReservationService.#ID++;
         ReservationService.#reservations.push(new Reservation(id, hotelName, guestNumber, stayDays, price, checkIn, checkOut));
     }

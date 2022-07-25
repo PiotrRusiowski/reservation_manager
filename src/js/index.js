@@ -68,15 +68,8 @@ const formManager = new FormManager({
 
     ],
     submitButtonMessage: 'Add',
-    submitCallback: ({hotelName, guestNumber, checkIn, checkOut}) => {
-        console.log('formStae', formManager.getFormState())
-        const stayDays = Reservation.getStayDays(checkIn, checkOut);
-        console.log(stayDays)
-        formManager.setState(dayjs(checkIn).format('DD/MM/YYYY'), 'checkIn')
-        formManager.setState(stayDays, 'stayDays');
-        ReservationService.addReservation(formManager
-            .setState(Reservation.getTotalPrice(HotelService
-                .findHotelByName(hotelName).price, +guestNumber, stayDays), 'price'));
+    submitCallback: () => {
+        ReservationService.addReservation(formManager.getFormState())
         loadReservation()
     }
 
