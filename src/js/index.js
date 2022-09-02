@@ -69,6 +69,7 @@ const formManager = new FormManager({
     ],
     submitButtonMessage: 'Add',
     submitCallback: () => {
+        console.log(formManager.getFormState())
         ReservationService.addReservation(formManager.getFormState())
         loadReservation()
     }
@@ -76,8 +77,7 @@ const formManager = new FormManager({
 
 });
 const getStaydays = () => {
-
-}
+};
 
 loadReservation()
 

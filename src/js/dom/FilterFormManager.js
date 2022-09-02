@@ -1,9 +1,7 @@
 export default class FilterFormManager {
     #inputCallback;
 
-    constructor(
-        inputCallback
-    ) {
+    constructor(inputCallback) {
         this.#inputCallback = inputCallback
     }
 

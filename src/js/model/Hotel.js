@@ -9,5 +9,4 @@ export default class Hotel {
         return `'${this.name}' - cost per day: ${this.price}pln`
     }
 
-
 }

@@ -56,32 +56,11 @@ export default class FormManager {
                 this.#createSelectField(formField)
                 break
             case 'date':
-                this.#createDateField(formField)
+                this.#createTextAndNumberField(formField)
         }
 
     };
 
-    #createDateField({type, labels}) {
-        return labels.forEach((label) => {
-            const formGroupElement = FormManager.#createFormGroupElement();
-            const labelElement = document.createElement('label');
-            labelElement.setAttribute('for', `${label}`);
-            labelElement.textContent = label;
-            formGroupElement.appendChild(labelElement);
-
-            const inputElement = document.createElement('input');
-            inputElement.id = label;
-            inputElement.type = type;
-            inputElement.className = 'form-control'
-            formGroupElement.appendChild(inputElement)
-
-
-            inputElement.addEventListener('input', (e) => this.setState(e.target.value, label))
-            this.#formElement.appendChild(formGroupElement)
-        })
-
-
-    }
 
     #createTextAndNumberField({labels, type}) {
         return labels.forEach((label) => {
@@ -118,12 +97,12 @@ export default class FormManager {
             optionElement.className = 'hotel-option'
             optionElement.textContent = hotel.info()
             optionElement.setAttribute('hotel-id', `${hotel.id}`)
-
+            selectElement.addEventListener('change', (e) => {
+                this.setState(hotel.name, label)
+            })
             return selectElement.appendChild(optionElement);
         });
-        formGroupElement.addEventListener("change", function () {
-            console.log(this)
-        })
+
         return formGroupElement
 
     }
@@ -146,6 +125,9 @@ export default class FormManager {
 
     }
 
+    #formValidation(e) {
+
+    }
 
     setState(e, name) {
         console.log(this.#formState)

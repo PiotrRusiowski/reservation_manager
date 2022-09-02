@@ -11,12 +11,14 @@ export default class Reservation {
         this.checkIn = checkIn
         this.checkOut = checkOut
 
+
     }
 
 
     static getTotalPrice(price, guestNumber, daysNumber) {
         return price * guestNumber * daysNumber
     }
+
 
     static getStayDays(checkIn, checkOut) {
         const date1 = dayjs(checkOut)

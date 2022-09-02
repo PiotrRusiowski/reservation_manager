@@ -2,12 +2,9 @@ import Reservation from "../model/Reservation";
 import HotelService from "./HotelService";
 
 export default class ReservationService {
-
-
     static #reservations = [
         new Reservation(1, 'hostel', 10, 4, 10, '12-10-2022', '12-11-2022'),
         new Reservation(1, 'hostel2', 3, 50, 2, '12-10-2022', '12-11-2022'),
-
     ]
 
 
