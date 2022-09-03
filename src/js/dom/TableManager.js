@@ -58,9 +58,7 @@ export default class TableManager {
             const headerElementTH = document.createElement('th');
             const headerElementTHData = document.createTextNode(column.label);
             headerElementTH.appendChild(headerElementTHData);
-
             headerElementTH.addEventListener("click", () => this.#changeSort(key))
-
             headerElementTR.appendChild(headerElementTH);
         });
         headerElementTHEAD.appendChild(headerElementTR);

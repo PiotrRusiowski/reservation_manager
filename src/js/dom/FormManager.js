@@ -76,6 +76,7 @@ export default class FormManager {
             inputElement.id = idLowerCase;
             inputElement.type = type;
             inputElement.className = 'form-control'
+            inputElement.required = true;
             formGroupElement.appendChild(inputElement)
 
             inputElement.addEventListener('input', (e) => this.setState(e.target.value, idLowerCase))
@@ -90,8 +91,13 @@ export default class FormManager {
 
         const selectElement = document.createElement('select');
         selectElement.id = label
-        selectElement.className = 'form-control'
+        selectElement.className = 'form-control form-select'
+        selectElement.required = true;
         formGroupElement.appendChild(selectElement);
+        const optionSelected = document.createElement('option');
+        optionSelected.selected = true;
+        optionSelected.textContent = 'Please select hotel'
+        selectElement.appendChild(optionSelected)
         options.forEach((hotel) => {
             const optionElement = document.createElement('option')
             optionElement.className = 'hotel-option'
