@@ -16,6 +16,17 @@ const addReservationForm = document.querySelector('.add-reservation-form');
 const filterReservationForm = document.querySelector('.filters-form');
 const reservationServie = new ReservationService()
 
+getBtn.addEventListener("click", () => {
+    sanityClient
+        .create({
+            title: "bike",
+            id: "asd",
+        })
+        .then((res) => {
+            console.log(`Bike was created, document ID is ${res._id}`);
+        });
+});
+
 const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
     return oldTable && reservationTable.removeChild(oldTable)
