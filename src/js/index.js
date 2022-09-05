@@ -6,7 +6,9 @@ import ReservationService from "./service/ReservationService";
 import FilterFormManager from "./dom/FilterFormManager";
 import HotelService from "./service/HotelService";
 import Reservation from "./model/Reservation";
-import dayjs from "dayjs";
+import dayjs from "dayjs"
+import sanityClient from "./client/client";
+import {log} from "util";
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -15,17 +17,23 @@ const reservationTable = document.querySelector('.reservation-table');
 const addReservationForm = document.querySelector('.add-reservation-form');
 const filterReservationForm = document.querySelector('.filters-form');
 const reservationServie = new ReservationService()
+const getBtn = document.querySelector('.getBtn')
 
-getBtn.addEventListener("click", () => {
-    sanityClient
-        .create({
-            title: "bike",
-            id: "asd",
-        })
-        .then((res) => {
-            console.log(`Bike was created, document ID is ${res._id}`);
-        });
-});
+// getBtn.addEventListener("click", () => {
+//     sanityClient
+//         .create({
+//             title: "bike",
+//             id: "asd",
+//         })
+//         .then((res) => {
+//             console.log(`Bike was created, document ID is ${res._id}`);
+//         });
+// });
+const query = '*[_type == "product"]'
+getBtn.addEventListener('click', () => {
+    console.log('dziala')
+    return sanityClient.fetch(query).then((res) => console.log(res))
+})
 
 const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
