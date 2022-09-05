@@ -1,17 +1,22 @@
 import Hotel from "../model/Hotel";
+import sanityClient from "../client/client";
+import {log} from "util";
 
+const query = '*[_type == "product"]'
 export default class HotelService {
-    static #hotels = [
-        new Hotel(1, 'h1', 200),
-        new Hotel(2, 'Hotel ', 300),
-        new Hotel(3, 'Motel', 400),
-        new Hotel(4, 'Hilton', 500),
-    ]
+    static #hotels = []
     static #ID = 5
 
     static getAllHotels() {
 
         return HotelService.#hotels
+    }
+
+    async getHotelsFromServer() {
+        await sanityClient.fetch(query).then((hotel) => hotel.map((hotel) => {
+            HotelService.#hotels.push(new Hotel(hotel._id, hotel.title, 22))
+        }))
+
     }
 
     static findHotelByName(name) {

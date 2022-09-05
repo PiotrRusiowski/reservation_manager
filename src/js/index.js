@@ -16,8 +16,9 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 const reservationTable = document.querySelector('.reservation-table');
 const addReservationForm = document.querySelector('.add-reservation-form');
 const filterReservationForm = document.querySelector('.filters-form');
+const getBtn = document.querySelector('.getBtn');
+const hotelService = new HotelService()
 const reservationServie = new ReservationService()
-const getBtn = document.querySelector('.getBtn')
 
 // getBtn.addEventListener("click", () => {
 //     sanityClient
@@ -29,16 +30,10 @@ const getBtn = document.querySelector('.getBtn')
 //             console.log(`Bike was created, document ID is ${res._id}`);
 //         });
 // });
-const query = '*[_type == "product"]'
-getBtn.addEventListener('click', () => {
-    console.log('dziala')
-    return sanityClient.fetch(query).then((res) => console.log(res))
-})
 
 const removeOldTable = () => {
     const oldTable = reservationTable.firstElementChild;
     return oldTable && reservationTable.removeChild(oldTable)
-    console.log("remove")
 }
 const loadReservation = () => {
     removeOldTable()
@@ -62,7 +57,7 @@ const tableManager = new TableManager({
     sortKey: 'id',
     columns: {
         id: {type: 'number', label: 'ID'},
-        hotelName: {type: 'string', label: 'Hotel Name'},
+        hotelName: {type: 'string', label: 'HotelName'},
         guestNumber: {type: 'number', label: 'guestNumber'},
         stayDays: {type: 'number', label: 'stayDays'},
         price: {type: 'number', label: 'price'},
@@ -86,6 +81,7 @@ const formManager = new FormManager({
         {type: 'date', labels: ['checkIn', 'checkOut']}
 
     ],
+
     submitButtonMessage: 'Add',
     submitCallback: () => {
         console.log(formManager.getFormState())
@@ -95,15 +91,23 @@ const formManager = new FormManager({
 
 
 });
-const getStaydays = () => {
-};
+getBtn.addEventListener('click', () => {
+    console.log(hotelService.getHotelsFromServer(formManager))
+})
+
 
 loadReservation()
 
 
-const form = formManager.createForm()
+const formLoading = async () => {
+    await hotelService.getHotelsFromServer()
+    return formManager.createForm()
+}
+const form = formLoading().then((el) => {
+    addReservationForm.appendChild(el)
+})
 const filterForm = filterManager.createForm()
-addReservationForm.appendChild(form)
+
 filterReservationForm.appendChild(filterForm)
 
 
