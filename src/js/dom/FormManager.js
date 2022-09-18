@@ -131,10 +131,6 @@ export default class FormManager {
 
     }
 
-    #formValidation(e) {
-
-    }
-
     setState(e, name) {
         console.log(this.#formState)
         const inputValue = {};
